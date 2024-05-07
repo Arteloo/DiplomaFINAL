@@ -3,19 +3,20 @@ const {DataTypes} = require('sequelize')
 
 const Users = sequelize.define('Users', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    email: {type: DataTypes.STRING, unique: true},
-    password: {type: DataTypes.STRING, allowNull: false},
+    login: {type: DataTypes.STRING(30), unique: true, allowNull: false},
+    email: {type: DataTypes.STRING, unique: true, allowNull: false},
+    password: {type: DataTypes.STRING(30), allowNull: false},
     FIO: {type: DataTypes.STRING},
-    role: {type: DataTypes.STRING, defaultValue: 'USER'},
+    role: {type: DataTypes.STRING(5), defaultValue: 'USER', allowNull: false},
 })
 
 const Developers = sequelize.define('Developers', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     Name: {type: DataTypes.STRING},
     link: {type: DataTypes.STRING},
-    INN: {type: DataTypes.STRING(12), unique: true},
-    OGRN: {type: DataTypes.STRING(13), unique: true},
-    phone: {type: DataTypes.STRING(15), unique: true}
+    INN: {type: DataTypes.STRING(12), unique: true, allowNull: false},
+    OGRN: {type: DataTypes.STRING(13), unique: true, allowNull: false},
+    phone: {type: DataTypes.STRING(15), unique: true, allowNull: false}
 })
 
 const Apparatus = sequelize.define('Apparatus', {
@@ -24,7 +25,7 @@ const Apparatus = sequelize.define('Apparatus', {
 
 const Machine = sequelize.define('Machine', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING}
+    name: {type: DataTypes.STRING, unique: true}
 })
 
 const Zone = sequelize.define('Zone', {
@@ -34,7 +35,7 @@ const Zone = sequelize.define('Zone', {
 
 const Info = sequelize.define('Info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    Class: {type: DataTypes.STRING}
+    Class: {type: DataTypes.STRING, allowNull: false},
 })
 
 const SpecInfo = sequelize.define('Special_Info', {
@@ -44,7 +45,7 @@ const SpecInfo = sequelize.define('Special_Info', {
 
 const Properties = sequelize.define('Properties', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    PressPoint: {type: DataTypes.REAL, defaultValue: '0.0'},
+    PressPoint: {type: DataTypes.REAL},
     Refractorisity: {type: DataTypes.REAL},
     Porosity: {type: DataTypes.REAL},
     TKLR: {type: DataTypes.REAL},
@@ -81,7 +82,7 @@ Refractories.belongsTo(Info)
 SpecInfo.hasMany(Info)
 Info.belongsTo(SpecInfo)
 
-Developers.hasOne(Refractories)
+Developers.hasMany(Refractories)
 Refractories.belongsTo(Developers)
 
 Machine.belongsToMany(Zone, {through: Apparatus})
