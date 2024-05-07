@@ -6,7 +6,7 @@ const DeveloperRouter = require('./DeveloperRouter')
 const RefractoriesRouter = require('./RefractoriesRouter')
 const UserRouter = require('./UserRouter')
 
-router.use('/user', UserRouter)
+router.use('/users', UserRouter)
 router.use('/Machines', MachineRouter)
 router.use('/Zones', ZoneRouter)
 router.use('/Refractories', RefractoriesRouter)
