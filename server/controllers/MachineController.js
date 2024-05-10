@@ -1,21 +1,20 @@
+const {Machine} = require('../models/models')
 const ApiError = require("../error/ApiError")
+const { Sequelize } = require('../db')
 
 class MachineController {
     async create(req, res) {
-
+        const {name} = req.body
+        const machine = await Machine.create({name})
+        return res.json(machine)
     }
     async getAll(req, res, next) {
-        const {id} = req.query
-        if (!id) {
-            return next(ApiError.badRequest('Не задан ID'))
-        }
-        res.json(id)
+        const names = await Machine.findAll()
+        return res.json(names)
     }
     async delete(req, res) {
     }
-    async delete(req, res) {
-        
-    }
+
 }
 
 module.exports = new MachineController()

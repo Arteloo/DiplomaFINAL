@@ -35,12 +35,12 @@ const Zone = sequelize.define('Zone', {
 
 const Info = sequelize.define('Info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    Class: {type: DataTypes.STRING, allowNull: false},
+    Class: {type: DataTypes.STRING, allowNull: false, unique: true}
 })
 
 const SpecInfo = sequelize.define('Special_Info', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    Spec: {type: DataTypes.STRING}
+    Spec: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Properties = sequelize.define('Properties', {
@@ -80,8 +80,8 @@ Refractories.belongsTo(Properties)
 Info.hasOne(Refractories)
 Refractories.belongsTo(Info)
 
-SpecInfo.hasMany(Info)
-Info.belongsTo(SpecInfo)
+SpecInfo.hasMany(Refractories)
+Refractories.belongsTo(SpecInfo)
 
 Developers.hasMany(Refractories)
 Refractories.belongsTo(Developers)
