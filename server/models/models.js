@@ -55,7 +55,7 @@ const Properties = sequelize.define('Properties', {
 
 const Proportions = sequelize.define('Proportions', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    AL: {type: DataTypes.DECIMAL(4,2)},
+    Al: {type: DataTypes.DECIMAL(4,2)},
     Fe: {type: DataTypes.DECIMAL(4,2)},
     Si: {type: DataTypes.DECIMAL(4,2)},
     Zr: {type: DataTypes.DECIMAL(4,2)},
