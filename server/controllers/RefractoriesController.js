@@ -18,7 +18,32 @@ class RefractoriesController {
 
     }
     async getAll(req, res) {
-        
+        let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
+        page = page || 1
+        limit = limit || 9
+        let offset = page * limit - limit
+        let MaterialsSearch
+        if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAndCountAll({limit, offset})
+        }
+
+        if (MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId}, limit, offset})
+        }
+        if (!MachineId && ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId}, limit, offset})
+        }
+        if (!MachineId && !ZoneId && InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {InfoId}, limit, offset})
+        }
+        if (!MachineId && !ZoneId && !InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {SpecialInfoId}, limit, offset})
+        }
+
+        if (MachineId && ZoneId && InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        return res.json(MaterialsSearch)
     }
     async getOne(req, res) {
         
