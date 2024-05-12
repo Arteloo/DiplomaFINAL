@@ -46,7 +46,13 @@ class RefractoriesController {
         return res.json(MaterialsSearch)
     }
     async getOne(req, res) {
-        
+        const {id} = req.params
+        const Material = await Refractories.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(Material)
     }
     async delete(req, res) {
         
