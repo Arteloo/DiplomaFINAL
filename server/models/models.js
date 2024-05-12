@@ -19,7 +19,7 @@ const Developers = sequelize.define('Developers', {
     phone: {type: DataTypes.STRING(15), unique: true, allowNull: false}
 })
 
-const Apparatus = sequelize.define('Apparatus', {
+const Apparat = sequelize.define('Apparat', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
 
@@ -86,16 +86,21 @@ Refractories.belongsTo(SpecInfo)
 Developers.hasMany(Refractories)
 Refractories.belongsTo(Developers)
 
-Machine.belongsToMany(Zone, {through: Apparatus})
-Zone.belongsToMany(Machine, {through: Apparatus})
+Machine.hasOne(Refractories)
+Refractories.belongsTo(Machine)
 
-Apparatus.hasMany(Refractories)
-Refractories.belongsTo(Apparatus)
+Zone.hasOne(Refractories)
+Refractories.belongsTo(Zone
+
+)
+Machine.belongsToMany(Zone, {through: Apparat})
+Zone.belongsToMany(Machine, {through: Apparat})
+
 
 module.exports = {
     Users,
     Developers,
-    Apparatus,
+    Apparat,
     Machine, 
     Zone,
     Info,
