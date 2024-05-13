@@ -11,8 +11,19 @@ class SpecInfoController {
         const names = await SpecInfo.findAll()
         return res.json(names)
     }
+    async getOne(req, res) {
+        const {id} = req.params
+        const Spec = await SpecInfo.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(Spec)
+    }
     async delete(req, res) {
-        
+        const {id} = req.params
+        await SpecInfo.destroy({where: {id}})
+        return res.json({message: 'Указанный пункт свойств удален'})
     }
 
 }

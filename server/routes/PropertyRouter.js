@@ -1,9 +1,11 @@
 const Router = require('express')
 const router = new Router()
 const PropertyController = require('../controllers/PropertyController')
+const CheckRole = require('../middleware/checkRoleMiddleware')
 
 router.post('/create', CheckRole('ADMIN'), PropertyController.create)
 router.get('/check', PropertyController.getAll)
-router.post('/delete', CheckRole('ADMIN'), PropertyController.delete)
+router.get('/check/:id', CheckRole('ADMIN'), PropertyController.getOne)
+router.post('/delete/:id', CheckRole('ADMIN'), PropertyController.delete)
 
 module.exports = router

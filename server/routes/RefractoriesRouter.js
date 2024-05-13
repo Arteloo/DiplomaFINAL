@@ -1,10 +1,11 @@
 const Router = require('express')
 const router = new Router()
 const RefractoriesController = require('../controllers/RefractoriesController')
+const CheckRole = require('../middleware/checkRoleMiddleware')
 
 router.post('/create', CheckRole('ADMIN'), RefractoriesController.create)
-router.get('/getall', RefractoriesController.getAll)
+router.get('/check', RefractoriesController.getAll)
 router.get('/:id', RefractoriesController.getOne)
-router.post('/delete', CheckRole('ADMIN'), RefractoriesController.delete)
+router.post('/delete/:id', CheckRole('ADMIN'), RefractoriesController.delete)
 
 module.exports = router

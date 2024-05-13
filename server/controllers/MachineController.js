@@ -12,7 +12,19 @@ class MachineController {
         const names = await Machine.findAll()
         return res.json(names)
     }
+    async getOne(req, res, next) {
+        const {id} = req.params
+        const MachineOne = await Machine.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(MachineOne)
+    }
     async delete(req, res) {
+        const {id} = req.params
+        await Machine.destroy({where: {id}})
+        return res.json({message: 'Указанный аппарат удален'})
     }
 
 }

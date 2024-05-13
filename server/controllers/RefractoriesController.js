@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path')
-const {Refractories} = require('../models/models')
+const {Refractories, Apparat} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class RefractoriesController {
@@ -26,23 +26,22 @@ class RefractoriesController {
         if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
             MaterialsSearch = await Refractories.findAndCountAll({limit, offset})
         }
-
-        if (MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId}, limit, offset})
-        }
-        if (!MachineId && ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {ZoneId}, limit, offset})
-        }
-        if (!MachineId && !ZoneId && InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {InfoId}, limit, offset})
-        }
-        if (!MachineId && !ZoneId && !InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {SpecialInfoId}, limit, offset})
-        }
-
         if (MachineId && ZoneId && InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
         }
+        //Тройки - отсутствует один параметр из указанных
+        if (!MachineId && ZoneId && InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && !ZoneId && InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && !InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && InfoId && !SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset}) 
+    }
         return res.json(MaterialsSearch)
     }
     async getOne(req, res) {
@@ -55,7 +54,9 @@ class RefractoriesController {
         return res.json(Material)
     }
     async delete(req, res) {
-        
+        const {id} = req.params
+        await Refractories.destroy({where: {id}})
+        return res.json({message: 'Указанный огнеупор удален'})
     }
 }
 

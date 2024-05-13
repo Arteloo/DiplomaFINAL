@@ -9,8 +9,19 @@ class DeveloperController {
         const DevsAll = await Developers.findAll()
         return res.json(DevsAll)
     }
+    async getOne(req, res, next) {
+        const {id} = req.params
+        const DevOne = await Developers.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(DevOne)
+    }
     async delete(req, res) {
-        
+        const {id} = req.params
+        await Developers.destroy({where: {id}})
+        return res.json({message: 'Указанный производитель удален'})
     }
 }
 

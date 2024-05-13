@@ -12,8 +12,19 @@ class ProportionController {
         const ProportionsAll = await Proportions.findAll()
         return res.json(ProportionsAll)
     }
+    async getOne(req, res, next) {
+        const {id} = req.params
+        const PropOne = await Proportions.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(PropOne)
+    }
     async delete(req, res) {
-        
+        const {id} = req.params
+        await Proportions.destroy({where: {id}})
+        return res.json({message: 'Указанный состав огнеупора удален'})
     }
 
 }

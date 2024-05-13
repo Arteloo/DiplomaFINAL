@@ -11,8 +11,19 @@ class InfoController {
         const names = await Info.findAll()
         return res.json(names)
     }
+    async getOne(req, res, next) {
+        const {id} = req.params
+        const InfoOne = await Info.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(InfoOne)
+    }
     async delete(req, res) {
-        
+        const {id} = req.params
+        await Info.destroy({where: {id}})
+        return res.json({message: 'Указанный класс огнеупора удален'})
     }
 
 }

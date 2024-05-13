@@ -42,8 +42,19 @@ class UserController {
         const token = generateJwt(req.user.id, req.user.email, req.user.role)
         return res.json({token, message: 'All right'})
     }
+    async getOne(req, res) {
+        const {id} = req.params
+        const Usar = await Users.findOne(
+            {
+                where: {id}
+            }
+        )
+        return res.json(Usar)
+    }
     async delete(req, res) {
-
+        const {id} = req.params
+        await Users.destroy({where: {id}})
+        return res.json({message: 'Указанный пользователь удален'})
     }
 }
 
