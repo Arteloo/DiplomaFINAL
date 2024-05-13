@@ -20,6 +20,17 @@ class InfoController {
         )
         return res.json(InfoOne)
     }
+    async updateOne(req, res, next) {
+        const {id} = req.params
+        const {Class} = req.body
+        const ClassUp = await Info.findOne({where: {id}})
+       
+        if (Class) {
+           ClassUp.Class = Class
+        } 
+        ClassUp.save()
+        return res.json({message: 'Запись класса обновлена'})
+    }
     async delete(req, res) {
         const {id} = req.params
         await Info.destroy({where: {id}})

@@ -21,6 +21,17 @@ class MachineController {
         )
         return res.json(MachineOne)
     }
+    async updateOne(req, res, next) {
+        const {id} = req.params
+        const {name} = req.body
+        const MachineUp = await Machine.findOne({where: {id}})
+       
+        if (name) {
+            MachineUp.name = name
+        } 
+        MachineUp.save()
+        return res.json({message: 'Запись агрегата обновлена'})
+    }
     async delete(req, res) {
         const {id} = req.params
         await Machine.destroy({where: {id}})

@@ -19,6 +19,15 @@ class ZoneController {
         )
         return res.json(Zonus)
     }
+    async updateOne(req, res, next) {
+        const {id} = req.params
+        let {name} = req.body
+        const ZoneUp = await Zone.findOne({where: {id}})
+        ZoneUp.name = name
+        await ZoneUp.save()
+        return res.json({message: 'Зона футеровки обновлена'})
+    }
+
     async delete(req, res) {
         const {id} = req.params
         await Zone.destroy({where: {id}})

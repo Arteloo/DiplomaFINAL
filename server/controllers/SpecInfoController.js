@@ -20,6 +20,17 @@ class SpecInfoController {
         )
         return res.json(Spec)
     }
+    async updateOne(req, res, next) {
+        const {id} = req.params
+        const {Spec} = req.body
+        const SpecUp = await SpecInfo.findOne({where: {id}})
+       
+        if (Spec) {
+            SpecUp.Spec = Spec
+        } 
+        SpecUp.save()
+        return res.json({message: 'Запись свойств обновлена'})
+    }
     async delete(req, res) {
         const {id} = req.params
         await SpecInfo.destroy({where: {id}})
