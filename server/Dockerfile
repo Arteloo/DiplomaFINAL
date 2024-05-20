@@ -6,10 +6,10 @@ FROM node:18
 WORKDIR /server
 
 # Copy the application files into the working directory
-COPY . /server
+COPY . /app
 
 # Install the application dependencies
 RUN npm install
 
 # Define the entry point for the container
-CMD ["npm", "start"]
+CMD ["npm", "run dev"]
