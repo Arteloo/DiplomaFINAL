@@ -12,4 +12,4 @@ COPY . /server
 RUN npm install
 
 # Define the entry point for the container
-CMD ["npm", "run dev"]
+CMD ["node", "server/index.js"]
