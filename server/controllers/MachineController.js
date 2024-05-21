@@ -1,4 +1,4 @@
-const {Machine} = require('../models/models')
+const {Machine, Zone, MachineZoneRef} = require('../models/models')
 const ApiError = require("../error/ApiError")
 const { Sequelize } = require('../db')
 
@@ -16,10 +16,11 @@ class MachineController {
         const {id} = req.params
         const MachineOne = await Machine.findOne(
             {
-                where: {id}
+                where: {id}, include: MachineZoneRef
             }
         )
-        return res.json(MachineOne)
+        const {Zones} = MachineOne
+        return res.json([MachineOne, Zones])
     }
     async updateOne(req, res, next) {
         const {id} = req.params

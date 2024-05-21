@@ -1,9 +1,14 @@
-const {Zone} = require('../models/models')
+const {Zone, MachineZoneRef, Machine} = require('../models/models')
 const ApiError = require("../error/ApiError")
 class ZoneController {
-    async create(req, res) {
-        const {name} = req.body
+    async create(req, res, next) {
+        const {name, MachineId} = req.body
+        if (!MachineId) {
+            return next(ApiError.badRequest('Не указан тепловой агрегат, к которому принадлежит зона футеровки'))
+        }
         const createZone = await Zone.create({name})
+        const {id} = createZone
+        const createApparat = await MachineZoneRef.create({MachineId: MachineId, ZoneId: id})
         return res.json(createZone)
     }
     async getAll(req, res) {
@@ -14,10 +19,13 @@ class ZoneController {
         const {id} = req.params
         const Zonus = await Zone.findOne(
             {
-                where: {id}
+                where: {id}, include: MachineZoneRef
             }
         )
-        return res.json(Zonus)
+        const {MachineRefs: [{MachineId}]} = Zonus
+        const MachUsed = await Machine.findOne({where: MachineId})
+        const {name} = MachUsed
+        return res.json([Zonus, name])
     }
     async updateOne(req, res, next) {
         const {id} = req.params

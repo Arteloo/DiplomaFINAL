@@ -1,90 +1,103 @@
 const uuid = require('uuid')
 const path = require('path')
-const {Refractories, Apparat, Proportions, Properties, Info, SpecInfo, Developers, Machine, Zone} = require('../models/models')
+const {Refractories, Proportions, Properties, Info, SpecInfo, Developers, Machine, Zone} = require('../models/models')
+const {MachineZoneRef} = require('../models/models')
 const ApiError = require('../error/ApiError')
+const { Sequelize } = require('../db')
 
 class RefractoriesController {
     async create(req, res, next) {
-        try {
-            const {name, ProportionId, PropertyId, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
+            const {name, Al, Fe, Si, Zr, Ca, Mg, Cr, Cug, PressPoint, Refractorisity, Porosity, TKLR, Thermosity, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
             const {img} = req.files
+            if(!Al || !Fe || !Si || !Zr || !Ca || !Mg || !Cr || !Cug) {
+                next(ApiError.badRequest('Не указан состав материала'))
+            }
+            if(!PressPoint || !Refractorisity || !Porosity || !TKLR || !Thermosity) {
+                next(ApiError.badRequest('Не указаны свойства материала'))
+            }
+            if(!name) {
+                next(ApiError.badRequest('Не указано имя материала'))
+            }
+            const proports = await Proportions.create({Al, Fe, Si, Zr, Ca, Mg, Cr, Cug})
+            const props = await Properties.create({PressPoint, Refractorisity, Porosity, TKLR, Thermosity})
             let fileName = uuid.v4() + '.jpg'
             img.mv(path.resolve(__dirname, '..', 'static', fileName))
-            const Material = await Refractories.create({name, ProportionId, PropertyId, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId, img: fileName})
-            return res.json(Material)
-        } catch (e) {
-            next(ApiError.badRequest(e.message))
-        }
-
+            const Material = await Refractories.create({name, ProportionId: proports.id, PropertyId: props.id, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId, img: fileName})
+            const machzoneref = await MachineZoneRef.create({MachineId: MachineId, ZoneId: ZoneId, RefractoryId: Material.id})
+            return res.json(machzoneref)
     }
     async getAll(req, res) {
-        let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
+ let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
         page = page || 1
         limit = limit || 9
         let offset = page * limit - limit
         let MaterialsSearch
-        if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAndCountAll({limit, offset})
-        }
-        if (MachineId && ZoneId && InfoId && SpecialInfoId) {
+            if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({order: ['id'], limit, offset})
+            }
+            if (MachineId && ZoneId && InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
-        }
-        //Тройки - отсутствует один параметр из указанных
-        if (!MachineId && ZoneId && InfoId && SpecialInfoId) { 
+             }
+            //Тройки - отсутствует один параметр из указанных
+            if (!MachineId && ZoneId && InfoId && SpecialInfoId) { 
+                MachineId = MachineId || 1
             MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && !ZoneId && InfoId && SpecialInfoId) { 
+            }
+            if (MachineId && !ZoneId && InfoId && SpecialInfoId) { 
             MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && ZoneId && !InfoId && SpecialInfoId) { 
+            }
+            if (MachineId && ZoneId && !InfoId && SpecialInfoId) { 
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && ZoneId && InfoId && !SpecialInfoId) { 
+            }
+            if (MachineId && ZoneId && InfoId && !SpecialInfoId) { 
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset})} 
         
         //Двойки-  отсутствуют два параметра из указанных
-        if (MachineId && ZoneId && !InfoId && !SpecialInfoId) {
+            if (MachineId && ZoneId && !InfoId && !SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId}, limit, offset})
-        }
-        if (MachineId && !ZoneId && InfoId && !SpecialInfoId) {
+            }
+            if (MachineId && !ZoneId && InfoId && !SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId,  InfoId}, limit, offset})
-        }
-        if (MachineId && !ZoneId && !InfoId && SpecialInfoId) {
+            }
+            if (MachineId && !ZoneId && !InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId, SpecialInfoId}, limit, offset})
-        }
-        if (!MachineId && ZoneId && InfoId && !SpecialInfoId) {
+            }
+            if (!MachineId && ZoneId && InfoId && !SpecialInfoId) {
+            MachineId = MachineId || 1
             MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId}, limit, offset})
-        }
-        if (!MachineId && ZoneId && !InfoId && SpecialInfoId) {
+            }
+            if (!MachineId && ZoneId && !InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {ZoneId, SpecialInfoId}, limit, offset})
-        }
-        if (!MachineId && !ZoneId && InfoId && SpecialInfoId) {
+            }
+            if (!MachineId && !ZoneId && InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {InfoId, SpecialInfoId}, limit, offset})
-        }
+            }
         //единицы - отсутствует один параметр 
-        if (!MachineId && ZoneId && InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && !ZoneId && InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && ZoneId && !InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
-        }
-        if (MachineId && ZoneId && InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset})
-        }
+            if (MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId}, limit, offset})
+            }
+            if (!MachineId && ZoneId && !InfoId && !SpecialInfoId) {
+            MachineId = MachineId || 1
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId}, limit, offset})
+            }
+            if (!MachineId && !ZoneId && InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {InfoId}, limit, offset})
+            }
+            if (!MachineId && !ZoneId && !InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {SpecialInfoId}, limit, offset})
+            }
         return res.json(MaterialsSearch)
     }
     async getOne(req, res) {
         const {id} = req.params
         const Material = await Refractories.findOne(
             {
-                where: {id}
+                where: {id}, include: MachineZoneRef
             }
         )
         return res.json(Material)
     }
+
     async updateOne(req, res, next) {
         const {id} = req.params
         const {name, ProportionId, PropertyId, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
@@ -155,3 +168,66 @@ class RefractoriesController {
 }
 
 module.exports = new RefractoriesController()
+
+//      const {id} = req.params
+//      let {Zones} = await Machine.findOne({where: {id}, include: Zone}) - возвращает зоны, относящиеся к конкретному агрегату
+
+/*   OLD GETALL
+      let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
+        page = page || 1
+        limit = limit || 9
+        let offset = page * limit - limit
+        let MaterialsSearch
+        if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({limit, offset})
+        }
+        if (MachineId && ZoneId && InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        //Тройки - отсутствует один параметр из указанных
+        if (!MachineId && ZoneId && InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && !ZoneId && InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && !InfoId && SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && InfoId && !SpecialInfoId) { 
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset})} 
+        
+        //Двойки-  отсутствуют два параметра из указанных
+        if (MachineId && ZoneId && !InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId}, limit, offset})
+        }
+        if (MachineId && !ZoneId && InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId,  InfoId}, limit, offset})
+        }
+        if (MachineId && !ZoneId && !InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, SpecialInfoId}, limit, offset})
+        }
+        if (!MachineId && ZoneId && InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId}, limit, offset})
+        }
+        if (!MachineId && ZoneId && !InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId, SpecialInfoId}, limit, offset})
+        }
+        if (!MachineId && !ZoneId && InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {InfoId, SpecialInfoId}, limit, offset})
+        }
+        //единицы - отсутствует один параметр 
+        if (!MachineId && ZoneId && InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && !ZoneId && InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && !InfoId && SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
+        }
+        if (MachineId && ZoneId && InfoId && !SpecialInfoId) {
+            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset})
+        }
+        return res.json(MaterialsSearch)
+*/ 

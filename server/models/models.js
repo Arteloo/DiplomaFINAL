@@ -19,9 +19,15 @@ const Developers = sequelize.define('Developers', {
     phone: {type: DataTypes.STRING(15), unique: true, allowNull: false}
 })
 
-const Apparat = sequelize.define('Apparat', {
+/*const Apparat = sequelize.define('Apparat', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})*/
+
+const MachineZoneRef = sequelize.define('MachineRef', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
+
+
 
 const Machine = sequelize.define('Machine', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -44,7 +50,7 @@ const SpecInfo = sequelize.define('Special_Info', {
 })
 
 const Properties = sequelize.define('Properties', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.INTEGER, primaryKey: true, unique: true, autoIncrement: true},
     PressPoint: {type: DataTypes.REAL},
     Refractorisity: {type: DataTypes.REAL},
     Porosity: {type: DataTypes.REAL},
@@ -54,7 +60,7 @@ const Properties = sequelize.define('Properties', {
 })
 
 const Proportions = sequelize.define('Proportions', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    id: {type: DataTypes.INTEGER, primaryKey: true, unique: true, autoIncrement: true},
     Al: {type: DataTypes.DECIMAL(4,2)},
     Fe: {type: DataTypes.DECIMAL(4,2)},
     Si: {type: DataTypes.DECIMAL(4,2)},
@@ -86,26 +92,31 @@ Refractories.belongsTo(SpecInfo)
 Developers.hasMany(Refractories)
 Refractories.belongsTo(Developers)
 
-Machine.hasOne(Refractories)
-Refractories.belongsTo(Machine)
+Machine.hasMany(MachineZoneRef)
+Refractories.hasMany(MachineZoneRef)
+Zone.hasMany(MachineZoneRef)
 
-Zone.hasOne(Refractories)
-Refractories.belongsTo(Zone
+MachineZoneRef.belongsTo(Machine)
+MachineZoneRef.belongsTo(Refractories)
+MachineZoneRef.belongsTo(Zone)
 
-)
-Machine.belongsToMany(Zone, {through: Apparat})
-Zone.belongsToMany(Machine, {through: Apparat})
+
+//Zone.belongsToMany(Refractories, {through: ZoneRef})
+//Refractories.belongsToMany(Zone, {through: ZoneRef})
+
+//Machine.belongsToMany(Zone, {through: Apparat})
+//Zone.belongsToMany(Machine, {through: Apparat})
 
 
 module.exports = {
     Users,
     Developers,
-    Apparat,
     Machine, 
     Zone,
     Info,
     SpecInfo,
     Properties,
     Proportions,
-    Refractories
+    Refractories,
+    MachineZoneRef
 }
