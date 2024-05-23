@@ -1,4 +1,4 @@
-import { Component } from "react"
+import React from "react"
 import Admin from "./pages/Admin"
 import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, OGNE_ROUTE, REGISTRATION_ROUTE } from "./utils/consts"
 import Main from "./pages/Main"
