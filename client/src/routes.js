@@ -5,14 +5,25 @@ import Main from "./pages/Main"
 import Auth from "./pages/Auth"
 import MaterialPage from "./pages/MaterialPage"
 
-export const authRoutes = [
+export const admRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin
     }
 ]
 
-export const publicRoutes = [
+export const authRoutes = [
+    {
+        path: LOGIN_ROUTE,
+        Component: Auth
+    },
+    {
+        path: OGNE_ROUTE + '/:id',
+        Component: MaterialPage
+    }
+]
+
+export const freeRoutes = [
     {
         path: MAIN_ROUTE,
         Component: Main
@@ -25,8 +36,4 @@ export const publicRoutes = [
         path: LOGIN_ROUTE,
         Component: Auth
     },
-    {
-        path: OGNE_ROUTE + '/:id',
-        Component: MaterialPage
-    }
 ]
