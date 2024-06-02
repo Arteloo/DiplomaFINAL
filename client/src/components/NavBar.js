@@ -12,7 +12,7 @@ const NavBar = observer(() => {
     return(
         <Navbar bg="dark" variant='dark' className='sticky-top justify-content-between'>
             <Container>
-                <NavLink style={{color:'white', textDecoration: 'none'}} to={MAIN_ROUTE}>RefraMap</NavLink>
+                <NavLink style={{color:'white', textDecoration: 'none', fontSize: 20}} to={MAIN_ROUTE}>RefraMap</NavLink>
                     {user.isAdmin ? 
                         <Nav className="ml-auto" style={{color: 'white'}}>
                         <Dropdown>

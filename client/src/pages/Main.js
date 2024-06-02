@@ -4,14 +4,21 @@ import MachineDropdown from '../components/MachineDropdown';
 import ZoneDropdown from '../components/ZoneDropdown';
 import ClassDropdown from '../components/ClassDropdown';
 import SpecDropdown from '../components/SpecDropdown';
+import MainList from '../components/MainList';
+import { Row, Col } from "react-bootstrap";
 
 const Main = () => {
     return (
-        <Container className='d-flex justify-content-between' style={{border:'1px solid black'}}>
+        <Container style={{height: window.innerHeight - 54}}>
+        <Container className='d-flex justify-content-between mb-3'>
             <MachineDropdown/>
             <ZoneDropdown/>
             <ClassDropdown/>
             <SpecDropdown/>
+            </Container>
+        <Container className='d-flex justify-content-around'>
+            <MainList/>
+        </Container>
         </Container>
     );
 };

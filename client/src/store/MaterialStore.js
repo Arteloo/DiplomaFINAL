@@ -10,8 +10,9 @@ export default class MaterialStore {
             {id: 2, Class: "Корундовые"},
             {id: 3, Class: "Периклазоуглеродистые"},
         ]
-        this._Special_Infos = [
-            {id: 1, Spec: "Для футеровки"}
+        this._SpecialInfos = [
+            {id: 1, Spec: "Для футеровки"},
+            {id: 2, Spec: 'Для ведения процесса плавки'},
         ]
         this._Machines = [
             {id: 1, name: 'Доменная печь'},
@@ -29,9 +30,21 @@ export default class MaterialStore {
             {id: 2, MachineId: 2, RefractoryId: 2, ZoneId: 1},
             {id: 3, MachineId: 2, RefractoryId: 3, ZoneId: 2}
         ]
+        this._Proportions = [
+            {id: 1, Al: 63.00, Fe: 1.20, Si: 0.00, Zr: 0.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 0.00},
+            {id: 2, Al: 65.00, Fe: 1.5, Si: 1.00, Zr: 2.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 0.00},
+            {id: 2, Al: 64.00, Fe: 1.2, Si: 5.00, Zr: 2.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 1.01},
+        ]
+        this._Properties = [
+            {id: 1, PressPoint: 65, Refractorisity: 1500, Porosity: 17, TKLR: 0, Thermosity: 0},
+            {id: 2, PressPoint: 62, Refractorisity: 1550, Porosity: 16, TKLR: 0.4, Thermosity: 500},
+            {id: 3, PressPoint: 62, Refractorisity: 1850, Porosity: 16, TKLR: 0.4, Thermosity: 500},
+        ]
         this._Refractories = [
-            {id: 1, name: 'МЛДД', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1},
-            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1}
+            {id: 1, name: 'МЛДД', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 1},
+            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 2},
+            {id: 3, name: 'Сгинь-5к', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 3},
+            
         ]
         this._selectedMachine = {}
         this._selectedZone = {}
@@ -47,7 +60,7 @@ export default class MaterialStore {
         this._Infos = Inf
     }
     setSpec(Spec) {
-        this._Special_Infos = Spec
+        this._SpecialInfos = Spec
     }
     setMachines(Mach) {
         this._Machines = Mach
@@ -60,6 +73,12 @@ export default class MaterialStore {
     }
     setRefractories(Refra) {
         this._Refractories = Refra
+    }
+    setProportion(Prop) {
+        this._Proportions = Prop
+    }
+    setProperties(Prop) {
+        this._Properties = Prop
     }
 
     setSelectedMachine(Machine) {
@@ -82,7 +101,7 @@ export default class MaterialStore {
         return this._Infos
     }
     get SpecInfos() {
-        return this._Special_Infos
+        return this._SpecialInfos
     }
     get Machines() {
         return this._Machines
@@ -95,6 +114,12 @@ export default class MaterialStore {
     }
     get Refractories() {
         return this._Refractories
+    }
+    get Proportions() {
+        return this._Proportions
+    }
+    get Properties() {
+        return this._Properties
     }
 
     get selectedMachine() {
