@@ -3,7 +3,14 @@ import {makeAutoObservable} from 'mobx';
 export default class MaterialStore {
     constructor() {
         this._Developers = [
-            {id: 1, Name: "АО Боровичский комбинат огнеупоров", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662}
+            {id: 1, Name: "АО Боровичский комбинат огнеупоров", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 2, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 3, Name: "Абоб Абобович", link: '228.ru', INN: 5320002951, OGRN: 1025300987139, phone: 88166425662 },
+            {id: 4, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 5, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 6, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 7, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            
         ]
         this._Infos = [
             {id: 1, Class: "Муллитовые"},
@@ -33,7 +40,7 @@ export default class MaterialStore {
         this._Proportions = [
             {id: 1, Al: 63.00, Fe: 1.20, Si: 0.00, Zr: 0.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 0.00},
             {id: 2, Al: 65.00, Fe: 1.5, Si: 1.00, Zr: 2.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 0.00},
-            {id: 2, Al: 64.00, Fe: 1.2, Si: 5.00, Zr: 2.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 1.01},
+            {id: 3, Al: 64.00, Fe: 1.2, Si: 5.00, Zr: 2.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 1.01},
         ]
         this._Properties = [
             {id: 1, PressPoint: 65, Refractorisity: 1500, Porosity: 17, TKLR: 0, Thermosity: 0},
@@ -42,8 +49,8 @@ export default class MaterialStore {
         ]
         this._Refractories = [
             {id: 1, name: 'МЛДД', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 1},
-            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 2},
-            {id: 3, name: 'Сгинь-5к', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 3},
+            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 2, ProportionId: 2},
+            {id: 3, name: 'Сгинь-5к', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 2, SpecialInfoId: 2, DeveloperId: 3, ProportionId: 3},
             
         ]
         this._selectedMachine = {}

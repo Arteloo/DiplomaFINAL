@@ -1,14 +1,24 @@
-import React from "react"
+
 import Admin from "./pages/Admin"
-import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, OGNE_ROUTE, REGISTRATION_ROUTE } from "./utils/consts"
+import { ADMIN_ROUTE, DEV_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, OGNE_ROUTE, REGISTRATION_ROUTE } from "./utils/consts"
 import Main from "./pages/Main"
 import Auth from "./pages/Auth"
+import Devs from './pages/Devs'
+import DevPage from "./pages/DevPage"
 import MaterialPage from "./pages/MaterialPage"
 
 export const admRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin
+    },
+    {
+        path: DEV_ROUTE,
+        Component: Devs
+    },
+    {
+        path: DEV_ROUTE + '/:id',
+        Component: DevPage
     }
 ]
 

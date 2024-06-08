@@ -18,6 +18,9 @@ class RefractoriesController {
             if(!name) {
                 next(ApiError.badRequest('Не указано имя материала'))
             }
+            if(!img) {
+                next(ApiError.badRequest('Приложите изображение материала'))
+            }
             const proports = await Proportions.create({Al, Fe, Si, Zr, Ca, Mg, Cr, Cug})
             const props = await Properties.create({PressPoint, Refractorisity, Porosity, TKLR, Thermosity})
             let fileName = uuid.v4() + '.jpg'

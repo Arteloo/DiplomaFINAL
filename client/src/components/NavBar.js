@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { Context } from '..';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {Button, Container, Dropdown} from 'react-bootstrap';
+import {Button, Container} from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE} from '../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE} from '../utils/consts';
 import {observer} from 'mobx-react-lite'
-
+import { useNavigate } from 'react-router-dom';
 const NavBar = observer(() => {
+    const loc = useNavigate()
     const {user} = useContext(Context)
     return(
         <Navbar bg="dark" variant='dark' className='sticky-top justify-content-between'>
@@ -15,23 +16,12 @@ const NavBar = observer(() => {
                 <NavLink style={{color:'white', textDecoration: 'none', fontSize: 20}} to={MAIN_ROUTE}>RefraMap</NavLink>
                     {user.isAdmin ? 
                         <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Dropdown>
-                            <Dropdown.Toggle variant='outline-light'>Админ панель</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#">Добавить пользователя</Dropdown.Item>
-                                <Dropdown.Item href="#">Добавить производителя</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item href="#">Добавить агрегат</Dropdown.Item>
-                                <Dropdown.Item href="#">Добавить зону футеровки</Dropdown.Item>
-                                <Dropdown.Item href="#">Добавить класс огнеупора</Dropdown.Item>
-                                <Dropdown.Item href="#">Добавить область применения</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <NavLink to={MAIN_ROUTE}><Button variant={'outline-light'} className="ms-3" onClick={() => {user.setIsAdmin(false); user.setIsAuth(false)}}>Выйти</Button></NavLink>
+                        <Button variant='outline-light' onClick={()=> loc(ADMIN_ROUTE)}>Админ панель</Button>
+                        <Button variant={'outline-light'} className="ms-3" onClick={() => loc(LOGIN_ROUTE)}>Выйти</Button>
                         </Nav>
                     : user.isAuth ?
                         <Nav className="ml-auto" style={{color: 'white'}}>
-                        <NavLink to={MAIN_ROUTE}><Button variant={'outline-light'} className="ms-3" onClick={() => {user.setIsAdmin(false); user.setIsAuth(false)}}>Выйти</Button></NavLink>
+                        <Button variant={'outline-light'} className="ms-3"  onClick={() => loc(LOGIN_ROUTE)}>Выйти</Button>
                         </Nav>
                     :
                         <Nav className="ml-auto" style={{color: 'white'}}>

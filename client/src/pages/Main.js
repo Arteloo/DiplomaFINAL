@@ -5,7 +5,7 @@ import ZoneDropdown from '../components/ZoneDropdown';
 import ClassDropdown from '../components/ClassDropdown';
 import SpecDropdown from '../components/SpecDropdown';
 import MainList from '../components/MainList';
-import { Row, Col } from "react-bootstrap";
+
 
 const Main = () => {
     return (

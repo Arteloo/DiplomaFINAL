@@ -7,29 +7,33 @@ import { useParams } from 'react-router-dom';
 const MaterialPage = () => {
     const {Material} = useContext(Context)
     const {id} = useParams()
-    const mat = Material.Refractories[id-1]
-    const props = Material.Proportions[id-1]
-    const propers = Material.Properties[id-1]
+    let mat = Array.from(Material.Refractories).filter(it =>
+        it.id == id
+    )
+    mat = mat[0]
+    let props = Array.from(Material.Proportions).filter(it => 
+        it.id == id
+    )
+    props = props[0]
+    let propers = Array.from(Material.Properties).filter(it =>
+        it.id == id
+    )
+    propers = propers[0]
     const {InfoId, SpecialInfoId, DeveloperId} = mat
-    let classicName
-    for(let i=0; i<Material.Infos.length; i++) {
-        if(InfoId === Material.Infos[i].id) {
-            classicName = Material.Infos[i].Class
-        }
-    }
-    let Specia
-    for(let i=0; i<Material.SpecInfos.length; i++) {
-        if(SpecialInfoId === Material.SpecInfos[i].id) {
-            Specia = Material.SpecInfos[i].Spec
-        }
-    }
-    let Deva, site
-    for(let i=0; i<Material.Developers.length; i++) {
-        if(DeveloperId === Material.Developers[i].id) {
-            Deva = Material.Developers[i].Name
-            site = Material.Developers[i].link
-        }
-    }
+    let classicName = Array.from(Material.Infos).filter(it =>
+        it.id == InfoId
+    )
+    classicName = classicName[0]
+    let Specia = Array.from(Material.SpecInfos).filter(it =>
+        it.id == SpecialInfoId
+    )
+    Specia = Specia[0]
+    let Deva
+    Deva = Array.from(Material.Developers).filter(it =>
+        it.id == DeveloperId
+    )
+    Deva = Deva[0]
+    console.log(propers, props)
     return (
         <Container>
         <h2 align='center' className='mt-2'>{mat.name}</h2>
@@ -39,8 +43,8 @@ const MaterialPage = () => {
             </Col>
             <Col md={4} className='d-flex align-items-center'>
                 <Card className='d-flex flex-column align-items-left justify-content-center p-4'style={{width: 450, height: 225, fontSize: 20}}>
-                <Row>Класс огнеупора: {classicName}</Row>
-                <Row>Область применения: {Specia}</Row>
+                <Row>Класс огнеупора: {classicName.Class}</Row>
+                <Row>Область применения: {Specia.Spec}</Row>
                 </Card>
             </Col>
             <Col md={4} className='d-flex align-items-center'>
@@ -49,7 +53,7 @@ const MaterialPage = () => {
                 <Row><p>{propers.Thermosity === 0 ? 'Термостойкость: не указана' : 'Термостойкость: ' + propers.Thermosity + ' теплосмен'} </p></Row>
                 <Row><p>{propers.PressPoint === 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
                 <Row><p>{propers.Refractorisity === 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
-                <Row><p>Производитель: {Deva}, <a href={'http://' + site} style={{textDecoration: 'none'}}>{site}</a></p></Row>
+                <Row><p>Производитель: {Deva.Name}, <a href={'http://' + Deva.link} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
                 </Card>
             </Col>
             </Row>

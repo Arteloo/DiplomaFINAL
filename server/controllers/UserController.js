@@ -12,30 +12,30 @@ const generateJwt = (id, email, login, role) => {
 
 class UserController {
     async registration(req, res, next) {
-            const {email, login, password, role, FIO} = req.body
+            const {email, password, role} = req.body
             if (!email || !password || !login) {
-                return next(ApiError.badRequest('Не указан email/пароль/логин'))
+                return next(ApiError.badRequest('Не указан email/пароль'))
             }
             const candidate = await Users.findOne({where: {email}})
             if (candidate) {
                 return next(ApiError.badRequest('Пользователь с таким email уже существует'))
             }
             const hashPass = await bcrypt.hash(password, 4)
-            const NewUser = await Users.create({email, role, password: hashPass, login})
-            const token = generateJwt(NewUser.id, NewUser.email, NewUser.login, NewUser.role)
+            const NewUser = await Users.create({email, role, password: hashPass})
+            const token = generateJwt(NewUser.id, NewUser.email, NewUser.role)
             return res.json({token})
     }
     async login(req, res, next) {
-        const {login, password} = req.body
-        const logUser = await Users.findOne({where: {login}})
+        const {email, password} = req.body
+        const logUser = await Users.findOne({where: {email}})
         if (!logUser) {
-            return next(ApiError.badRequest('Пользователь с таким логином отсутствует в системе'))
+            return next(ApiError.badRequest('Пользователь с такой почтой отсутствует в системе'))
         }
         let compPassword = bcrypt.compareSync(password, logUser.password)
         if (!compPassword) {
             return next(ApiError.badRequest('Указан некорректный пароль'))
         }
-        const token = generateJwt(logUser.id, logUser.email, logUser.login, logUser.role)
+        const token = generateJwt(logUser.id, logUser.email, logUser.role)
         return res.json({token})
     }
     async check(req, res) {
