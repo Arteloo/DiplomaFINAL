@@ -166,6 +166,8 @@ class RefractoriesController {
     async delete(req, res) {
         const {id} = req.params
         await Refractories.destroy({where: {id}})
+        await Properties.destroy({where: {id}})
+        await Proportions.destroy({where: {id}})
         return res.json({message: 'Указанный огнеупор удален'})
     }
 }

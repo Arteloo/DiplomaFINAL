@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
-import { useParams } from 'react-router-dom';
+import { useParams, } from 'react-router-dom';
+import {Button} from 'react-bootstrap';
+import UpdateRef from '../components/modals/updateRef';
 
 const MaterialPage = () => {
     const {Material} = useContext(Context)
@@ -12,11 +14,11 @@ const MaterialPage = () => {
     )
     mat = mat[0]
     let props = Array.from(Material.Proportions).filter(it => 
-        it.id == id
+        it.id == mat.ProportionId
     )
     props = props[0]
     let propers = Array.from(Material.Properties).filter(it =>
-        it.id == id
+        it.id == mat.PropertyId
     )
     propers = propers[0]
     const {InfoId, SpecialInfoId, DeveloperId} = mat
@@ -33,7 +35,10 @@ const MaterialPage = () => {
         it.id == DeveloperId
     )
     Deva = Deva[0]
+    const {user} = useContext(Context)
+    const [RefVisible, setRefVisible] = useState(false)
     return (
+        <>
         <Container>
         <h2 align='center' className='mt-2'>{mat.name}</h2>
             <Row className='d-flex justify-content-between align-items-center'>
@@ -53,6 +58,7 @@ const MaterialPage = () => {
                 <Row><p>{propers.PressPoint === 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
                 <Row><p>{propers.Refractorisity === 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
                 <Row><p>Производитель: {Deva.Name}, <a href={'http://' + Deva.link} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
+                <Button variant='outline-success' className='d-flex flex-column m-3'><a style={{textDecoration: 'none'}} href={'https://zachestnyibiznes.ru/company/ul/' + Deva.OGRN}>Проверить по ОГРН</a></Button>
                 </Card>
             </Col>
             </Row>
@@ -66,7 +72,14 @@ const MaterialPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{props.Cr === 0 ? 'Оксид хрома: не указан' : 'Оксид хрома: '  + props.Cr + ' %'}</Row>
             <Row style={{background: 'transparent', padding: 10}}>{props.Cug === 0 ? 'Углерод: не указан' : 'Углерод: '  + props.Cug + ' %'}</Row>
             </Row>
+            <div className='d-flex flex-row'>
+            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3' onClick={()=> setRefVisible(true)}>Обновить осн. информацию</Button> : <div></div>}
+            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3'>Обновить состав</Button> : <div></div>}
+            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3'>Обновить свойства</Button> : <div></div>}
+            </div>
         </Container>
+        <UpdateRef show={RefVisible} onHides={() => setRefVisible(false)}/>
+        </>
     );
 };
 

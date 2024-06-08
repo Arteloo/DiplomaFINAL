@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '..';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,10 +7,14 @@ import { NavLink } from 'react-router-dom';
 import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE} from '../utils/consts';
 import {observer} from 'mobx-react-lite'
 import { useNavigate } from 'react-router-dom';
+import CreateDev from './modals/createDev';
+
 const NavBar = observer(() => {
     const loc = useNavigate()
     const {user} = useContext(Context)
+    const [DevVisible, setDevVisible] = useState(false)
     return(
+        <>
         <Navbar bg="dark" variant='dark' className='sticky-top justify-content-between'>
             <Container>
                 <NavLink style={{color:'white', textDecoration: 'none', fontSize: 20}} to={MAIN_ROUTE}>RefraMap</NavLink>
@@ -19,13 +23,12 @@ const NavBar = observer(() => {
                         <Dropdown className='me-5'>
                             <Dropdown.Toggle variant='outline-light'>Создать</Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                <Dropdown.Item>Создать пользователя</Dropdown.Item>
-                                
+                                <Dropdown.Item onClick={() => setDevVisible(true)}>Производителя</Dropdown.Item>
+                                <Dropdown.Item>Огнеупор</Dropdown.Item>
+                                <Dropdown.Item>Агрегат</Dropdown.Item>
+                                <Dropdown.Item>Зону футеровки</Dropdown.Item>
+                                <Dropdown.Item>Класс</Dropdown.Item>
+                                <Dropdown.Item>Область применения</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <Button variant='outline-light' onClick={()=> loc(ADMIN_ROUTE)}>Админ панель</Button>
@@ -43,6 +46,8 @@ const NavBar = observer(() => {
                     }
             </Container>
         </Navbar>
+        <CreateDev show={DevVisible} onHides={() => setDevVisible(false)}/>
+        </>
     );
 });
 

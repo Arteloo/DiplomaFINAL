@@ -4,7 +4,7 @@ export default class MaterialStore {
     constructor() {
         this._Developers = [
             {id: 1, Name: "АО Боровичский комбинат огнеупоров", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
-            {id: 2, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
+            {id: 2, Name: "ООО Бэт огнеупор", link: "betogneupor.ru", INN: 5320002951, OGRN: 1217800134860, phone: 88166425662},
             {id: 3, Name: "Абоб Абобович", link: '228.ru', INN: 5320002951, OGRN: 1025300987139, phone: 88166425662 },
             {id: 4, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
             {id: 5, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
@@ -20,6 +20,7 @@ export default class MaterialStore {
         this._SpecialInfos = [
             {id: 1, Spec: "Для футеровки"},
             {id: 2, Spec: 'Для ведения процесса плавки'},
+            {id: 3, Spec: 'Для ремонта'}
         ]
         this._Machines = [
             {id: 1, name: 'Доменная печь'},
@@ -49,9 +50,9 @@ export default class MaterialStore {
             {id: 3, PressPoint: 62, Refractorisity: 1850, Porosity: 16, TKLR: 0.4, Thermosity: 500},
         ]
         this._Refractories = [
-            {id: 1, name: 'МЛДД', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 1},
-            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 2, ProportionId: 2},
-            {id: 3, name: 'Сгинь-5к', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 2, SpecialInfoId: 2, DeveloperId: 3, ProportionId: 3},
+            {id: 1, name: 'МЛДД', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 1, SpecialInfoId: 1, DeveloperId: 1, ProportionId: 1, PropertyId: 1},
+            {id: 2, name: "ГПК-13", img: '8f8df180-bc19-47c5-8eab-c550e974bd91.jpg', InfoId: 2, SpecialInfoId: 1, DeveloperId: 2, ProportionId: 2, PropertyId: 2},
+            {id: 3, name: 'Сгинь-5к', img: '163be540-bf9f-46fd-88d2-0eb79682532d.jpg', InfoId: 2, SpecialInfoId: 2, DeveloperId: 3, ProportionId: 3, PropertyId: 3},
             
         ]
         this._selectedMachine = {}
