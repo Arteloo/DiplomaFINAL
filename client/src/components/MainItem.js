@@ -6,7 +6,6 @@ import { OGNE_ROUTE } from '../utils/consts';
 
 const MainItem = ({mat}) => {
     const navigata = useNavigate()
-    console.log(navigata)
     return(
         <Col md={3} className={'mt-3'} onClick={() => navigata(OGNE_ROUTE + '/' + mat.id)}>
             <Card style={{width: 150, cursor: 'pointer'}} border={'light'} className='mt-3'>

@@ -35,7 +35,8 @@ export default class MaterialStore {
         this._MachineRefs = [
             {id: 1, MachineId: 1, RefractoryId: 1, ZoneId: 1},
             {id: 2, MachineId: 2, RefractoryId: 2, ZoneId: 1},
-            {id: 3, MachineId: 2, RefractoryId: 3, ZoneId: 2}
+            {id: 3, MachineId: 2, RefractoryId: 3, ZoneId: 2},
+            {id: 4, MachineId: 2,  ZoneId: 3}
         ]
         this._Proportions = [
             {id: 1, Al: 63.00, Fe: 1.20, Si: 0.00, Zr: 0.00, Ca: 0.00, Mg: 0.00, Cr: 0.00, Cug: 0.00},

@@ -33,7 +33,6 @@ const MaterialPage = () => {
         it.id == DeveloperId
     )
     Deva = Deva[0]
-    console.log(propers, props)
     return (
         <Container>
         <h2 align='center' className='mt-2'>{mat.name}</h2>

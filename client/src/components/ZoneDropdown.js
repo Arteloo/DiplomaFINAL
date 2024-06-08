@@ -13,13 +13,11 @@ const ZoneDropdown = observer(() => {
                 Abobius.push(Material.Refs[i].ZoneId)
             }
         }
-        console.log(Abobius)
     }
     for(let i=0; i < Abobius.length; i++) {
         if(Abobius[i] === Material.Zones[i].id) {
             MatRefs.push(Material.Zones[i])
         }
-        console.log(MatRefs)
     }
             return (
                 <Dropdown className='mt-5'>
