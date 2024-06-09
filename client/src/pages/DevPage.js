@@ -3,7 +3,7 @@ import { Button, Container } from 'react-bootstrap';
 import { Context } from '..';
 import { useParams } from 'react-router-dom';
 import {Row} from 'react-bootstrap';
-import UpdateDev from '../components/modals/updateDev';
+
 
 const DevPage = () => {
     
@@ -29,7 +29,6 @@ const DevPage = () => {
                 <Button variant='outline-info' className='d-flex m-3' onClick={() => setDevVisible(true)}>Обновить</Button>
             </div>
         </Container>
-        <UpdateDev show={DevVisible} onHides={() => setDevVisible(false)}/>
         </>
     );
 };

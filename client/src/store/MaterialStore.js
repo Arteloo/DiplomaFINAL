@@ -6,10 +6,6 @@ export default class MaterialStore {
             {id: 1, Name: "АО Боровичский комбинат огнеупоров", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
             {id: 2, Name: "ООО Бэт огнеупор", link: "betogneupor.ru", INN: 5320002951, OGRN: 1217800134860, phone: 88166425662},
             {id: 3, Name: "Абоб Абобович", link: '228.ru', INN: 5320002951, OGRN: 1025300987139, phone: 88166425662 },
-            {id: 4, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
-            {id: 5, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
-            {id: 6, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
-            {id: 7, Name: "ООО Бэт огнеупор", link: "aobko.ru", INN: 5320002951, OGRN: 1025300987139, phone: 88166425662},
             
         ]
         this._Infos = [

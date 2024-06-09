@@ -1,42 +1,35 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
 import { useParams, } from 'react-router-dom';
 import {Button} from 'react-bootstrap';
-import UpdateRef from '../components/modals/updateRef';
 
 const MaterialPage = () => {
-    const {Material} = useContext(Context)
-    const {id} = useParams()
-    let mat = Array.from(Material.Refractories).filter(it =>
+    let {user} = useContext(Context)
+    let [RefVisible, setRefVisible] = useState(false)
+    let {Material} = useContext(Context)
+    let {id} = useParams()
+    let mat = Array.from(Material.Refractories).find(it =>
         it.id == id
     )
-    mat = mat[0]
-    let props = Array.from(Material.Proportions).filter(it => 
+    let props = Array.from(Material.Proportions).find(it => 
         it.id == mat.ProportionId
     )
-    props = props[0]
-    let propers = Array.from(Material.Properties).filter(it =>
+    let propers = Array.from(Material.Properties).find(it =>
         it.id == mat.PropertyId
     )
-    propers = propers[0]
-    const {InfoId, SpecialInfoId, DeveloperId} = mat
-    let classicName = Array.from(Material.Infos).filter(it =>
-        it.id == InfoId
+    let classicName = Array.from(Material.Infos).find(it =>
+        it.id == mat.InfoId
     )
-    classicName = classicName[0]
-    let Specia = Array.from(Material.SpecInfos).filter(it =>
-        it.id == SpecialInfoId
+    let Specia = Array.from(Material.SpecInfos).find(it =>
+        it.id == mat.SpecialInfoId
     )
-    Specia = Specia[0]
-    let Deva
-    Deva = Array.from(Material.Developers).filter(it =>
+    let Deva, site, ogr
+    const {DeveloperId} = mat
+    Deva = Array.from(Material.Developers).find(it=> 
         it.id == DeveloperId
     )
-    Deva = Deva[0]
-    const {user} = useContext(Context)
-    const [RefVisible, setRefVisible] = useState(false)
     return (
         <>
         <Container>
@@ -58,7 +51,6 @@ const MaterialPage = () => {
                 <Row><p>{propers.PressPoint === 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
                 <Row><p>{propers.Refractorisity === 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
                 <Row><p>Производитель: {Deva.Name}, <a href={'http://' + Deva.link} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
-                <Button variant='outline-success' className='d-flex flex-column m-3'><a style={{textDecoration: 'none'}} href={'https://zachestnyibiznes.ru/company/ul/' + Deva.OGRN}>Проверить по ОГРН</a></Button>
                 </Card>
             </Col>
             </Row>
@@ -72,13 +64,8 @@ const MaterialPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{props.Cr === 0 ? 'Оксид хрома: не указан' : 'Оксид хрома: '  + props.Cr + ' %'}</Row>
             <Row style={{background: 'transparent', padding: 10}}>{props.Cug === 0 ? 'Углерод: не указан' : 'Углерод: '  + props.Cug + ' %'}</Row>
             </Row>
-            <div className='d-flex flex-row'>
-            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3' onClick={()=> setRefVisible(true)}>Обновить осн. информацию</Button> : <div></div>}
-            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3'>Обновить состав</Button> : <div></div>}
-            {user.isAdmin ? <Button variant='outline-info' className='d-flex m-3'>Обновить свойства</Button> : <div></div>}
-            </div>
         </Container>
-        <UpdateRef show={RefVisible} onHides={() => setRefVisible(false)}/>
+
         </>
     );
 };
