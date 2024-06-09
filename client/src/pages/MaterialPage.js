@@ -1,13 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext} from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
 import { useParams, } from 'react-router-dom';
-import {Button} from 'react-bootstrap';
+import { DEV_ROUTE } from '../utils/consts';
 
 const MaterialPage = () => {
-    let {user} = useContext(Context)
-    let [RefVisible, setRefVisible] = useState(false)
     let {Material} = useContext(Context)
     let {id} = useParams()
     let mat = Array.from(Material.Refractories).find(it =>
@@ -25,7 +23,7 @@ const MaterialPage = () => {
     let Specia = Array.from(Material.SpecInfos).find(it =>
         it.id == mat.SpecialInfoId
     )
-    let Deva, site, ogr
+    let Deva
     const {DeveloperId} = mat
     Deva = Array.from(Material.Developers).find(it=> 
         it.id == DeveloperId
@@ -49,8 +47,9 @@ const MaterialPage = () => {
                 <Row><p>{propers.TKLR === 0 ? 'ТКЛР: не указан' : "ТКЛР: " + propers.TKLR +' [1/(°C)]'}</p></Row>
                 <Row><p>{propers.Thermosity === 0 ? 'Термостойкость: не указана' : 'Термостойкость: ' + propers.Thermosity + ' теплосмен'} </p></Row>
                 <Row><p>{propers.PressPoint === 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
+                <Row><p>{propers.Porosity === 0 ? 'Открытая пористость: не указана' : 'Открытая пористость: ' + propers.Porosity + ' %'} </p></Row>
                 <Row><p>{propers.Refractorisity === 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
-                <Row><p>Производитель: {Deva.Name}, <a href={'http://' + Deva.link} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
+                <Row><p>Производитель: {Deva.Name}, <a href={DEV_ROUTE +'/' + Deva.id} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
                 </Card>
             </Col>
             </Row>

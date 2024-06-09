@@ -13,7 +13,7 @@ const Auth = () => {
                 <Form>
                 <h2 className='d-flex m-auto justify-content-center align-items-center mb-3'>{isLogin ? 'Авторизация' : 'Регистрация'}</h2>
                     <Form.Control className='mt-2' placeholder='Введите ваш e-mail...'/>
-                    <Form.Control className='mt-2' placeholder='Введите ваш пароль'/>
+                    <Form.Control className='mt-2' type='password' placeholder='Введите ваш пароль'/>
                     <Row className='d-flex justify-content-evenly'>
                     {isLogin ? 
                     <div className='d-flex justify-content-between mt-1 mb-3'>Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрироваться</NavLink></div>

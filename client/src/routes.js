@@ -7,8 +7,6 @@ import Devs from './pages/Devs'
 import DevPage from "./pages/DevPage"
 import MaterialPage from "./pages/MaterialPage"
 import Apparatus from "./pages/Apparatus"
-import { Component } from "react"
-import AgrPage from "./pages/AgrPage"
 
 export const admRoutes = [
     {
@@ -30,13 +28,8 @@ export const admRoutes = [
     {
         path: AGR_ROUTE,
         Component: Apparatus
-    },
-    {
-        path: AGR_ROUTE + '/update' + '/:id',
-        Component: AgrPage
     }
 ]
-
 export const authRoutes = [
     {
         path: LOGIN_ROUTE,
@@ -45,7 +38,11 @@ export const authRoutes = [
     {
         path: OGNE_ROUTE + '/:id',
         Component: MaterialPage
-    }
+    },
+    {
+        path: DEV_ROUTE + '/:id',
+        Component: DevPage
+    },
 ]
 
 export const freeRoutes = [
