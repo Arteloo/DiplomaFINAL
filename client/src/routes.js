@@ -24,11 +24,15 @@ export const admRoutes = [
         Component: DevPage
     },
     {
+        path: DEV_ROUTE + '/update' + '/:id',
+        Component: DevPage
+    },
+    {
         path: AGR_ROUTE,
         Component: Apparatus
     },
     {
-        path: AGR_ROUTE + '/:id',
+        path: AGR_ROUTE + '/update' + '/:id',
         Component: AgrPage
     }
 ]

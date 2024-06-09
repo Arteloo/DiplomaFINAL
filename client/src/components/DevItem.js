@@ -12,6 +12,7 @@ const DevItem = ({mat}) => {
                         <a href={'http://'+ mat.link} style={{textDecoration: 'none'}}>{mat.link}</a>
                     </div>
                 <div className='d-flex justify-content-center align-items-center' align='center' style={{fontSize: 24, cursor: 'pointer'}} onClick={() => navigata(DEV_ROUTE + '/' + mat.id)}>{mat.Name}</div>
+                <Button variant='outline-success' onClick={() => navigata(DEV_ROUTE + '/update/' + mat.id)}>Обновить</Button>
             </Card>
         </Col>
     );

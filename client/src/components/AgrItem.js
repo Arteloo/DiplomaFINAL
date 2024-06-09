@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Col } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
-import { AGR_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, AGR_ROUTE } from '../utils/consts';
+import {Button} from 'react-bootstrap';
 
 const AgrItem = ({mat}) => {
-    const navigata = useNavigate()
+    const nav = useNavigate()
     return(
+        <>
         <Col md={3} className={'mt-3'} >
-            <Card style={{width: 200, height: 200}} border={'dark'} className='mt-5 d-flex justify-content-center align-items-center '>
-            <div className='d-flex justify-content-center align-items-center'>
-                    </div>
-                <div className='d-flex justify-content-center align-items-center' align='center' style={{fontSize: 24, cursor: 'pointer'}} onClick={() => navigata(AGR_ROUTE + '/' + mat.id)}>{mat.name}</div>
+            <Card style={{width: 300, height: 200}} border={'dark'} className='mt-5 d-flex justify-content-center align-items-center'>
+                <div className='d-inline-flex justify-content-center flex-column' align='center' style={{fontSize: 23}}>{'ID аппарата: ' + mat.id}<span>{mat.name}</span></div>
+                <Button variant='outline-success' onClick={() => nav(AGR_ROUTE + '/update/' + mat.id)}>Обновить</Button>
+                <Button variant='outline-danger' className='mt-2'>Удалить</Button>
             </Card>
         </Col>
+        </>
     );
 };
 

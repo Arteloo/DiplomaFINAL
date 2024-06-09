@@ -26,7 +26,6 @@ const DevPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{DevId.phone == null ? 'Телефон производителя: не указан' : 'Телефон производителя: ' + DevId.phone }</Row>
             <div className='d-flex flex-row'>
                 <Button variant='outline-success' className='d-flex m-3'><a style={{textDecoration: 'none'}} href={'https://zachestnyibiznes.ru/company/ul/' + DevId.OGRN}>Проверить по ОГРН</a></Button>
-                <Button variant='outline-info' className='d-flex m-3' onClick={() => setDevVisible(true)}>Обновить</Button>
             </div>
         </Container>
         </>
