@@ -13,7 +13,7 @@ const generateJwt = (id, email, login, role) => {
 class UserController {
     async registration(req, res, next) {
             const {email, password, role} = req.body
-            if (!email || !password || !login) {
+            if (!email || !password) {
                 return next(ApiError.badRequest('Не указан email/пароль'))
             }
             const candidate = await Users.findOne({where: {email}})
