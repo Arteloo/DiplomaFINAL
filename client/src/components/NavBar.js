@@ -13,8 +13,9 @@ const NavBar = observer(() => {
     const {user} = useContext(Context)
     const logOut = () => {
         user.setUser({})
-        user.setIsAuth(false)
-        user.setIsAdmin(false)
+        user.setAuth(false)
+        user.setAdmin(false)
+        localStorage.clear()
     }
     return(
         <Navbar bg="dark" variant='dark' className='sticky-top justify-content-between'>
@@ -31,8 +32,7 @@ const NavBar = observer(() => {
                         </Nav>
                     :
                         <Nav className="ml-auto" style={{color: 'white'}}>
-                        <NavLink to={REGISTRATION_ROUTE}>
-                        <Button variant={'outline-light'} onClick={() => loc(LOGIN_ROUTE)} className="ms-3">Авторизация</Button></NavLink>
+                        <Button variant={'outline-light'} onClick={() => loc(LOGIN_ROUTE)} className="ms-3">Авторизация</Button>
                         </Nav>
                     }
             </Container>

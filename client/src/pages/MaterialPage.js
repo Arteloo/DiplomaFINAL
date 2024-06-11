@@ -1,12 +1,13 @@
 import React, { useContext} from 'react';
-import { Container, Col, Row, Card } from 'react-bootstrap';
+import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
-import { useParams, } from 'react-router-dom';
+import { useNavigate, useParams, } from 'react-router-dom';
 import { DEV_ROUTE } from '../utils/consts';
 
 const MaterialPage = () => {
     let {Material} = useContext(Context)
+    let nav = useNavigate()
     let {id} = useParams()
     let mat = Array.from(Material.Refractories).find(it =>
         it.id == id
@@ -49,7 +50,7 @@ const MaterialPage = () => {
                 <Row><p>{propers.PressPoint === 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
                 <Row><p>{propers.Porosity === 0 ? 'Открытая пористость: не указана' : 'Открытая пористость: ' + propers.Porosity + ' %'} </p></Row>
                 <Row><p>{propers.Refractorisity === 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
-                <Row><p>Производитель: {Deva.Name}, <a href={DEV_ROUTE +'/' + Deva.id} style={{textDecoration: 'none'}}>{Deva.link}</a></p></Row>
+                <Row><p>Производитель: {Deva.Name}, {Deva.link}</p></Row>
                 </Card>
             </Col>
             </Row>

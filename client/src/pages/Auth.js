@@ -22,7 +22,10 @@ const Auth = observer(() => {
                 data = await registration(email, password);
             }
             user.setUser(user)
-            user.setIsAuth(true)
+            user.setAuth(true)
+            if(data.login == "ADMIN") {
+                user.setAdmin(true)
+            }
             nav(MAIN_ROUTE)
         } catch (e) {
             alert(e.response.data.message)

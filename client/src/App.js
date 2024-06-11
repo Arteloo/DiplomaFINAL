@@ -14,11 +14,14 @@ const App = observer(() => {
   useEffect(() => {
     check().then(data => {
       user.setUser(true)
-      user.setIsAuth(true)
+      user.setAuth(true)
+      if(data.login == "ADMIN") {
+        user.setAdmin(true)
+      }
     }).finally(setLoading(false))
   }, [])
   if(loading) {
-    return <Spinner animation={'grow'}/>
+    return <Spinner animation={'border'}/>
   }
 
   return (

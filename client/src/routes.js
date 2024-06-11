@@ -57,9 +57,5 @@ export const freeRoutes = [
     {
         path: LOGIN_ROUTE,
         Component: Auth
-    },
-    {
-        path: OGNE_ROUTE + '/:id',
-        Component: MaterialPage
-    } //НАДО БУДЕТ УБРАТЬ ОТСЮДА КОГДА ЗАКОНЧУ РАЗРАБОТКУ, ДОСТУП ТОЛЬКО АВТОРИЗОВАННЫМ
+    }
 ]
