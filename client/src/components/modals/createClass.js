@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
+import { createClass } from '../../http/RefAPI';
 
 const CreateClass = ({show, onHide}) => {
+   const [value, setValue] = useState('')
+   const addClass = () => {
+      createClass({Class: value}).then(data => {
+      setValue('')
+      onHide()
+      })
+   }
+
     return(
     <Modal
         show={show}
@@ -20,12 +29,14 @@ const CreateClass = ({show, onHide}) => {
       <Modal.Body>
         <Form>
             <Form.Control
+                value={value}
+                onChange={e => setValue(e.target.value)}
                 placeholder={'Введите название класса'}
             />
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='outline-success' onClick={onHide}>Сохранить</Button>
+        <Button variant='outline-success' onClick={addClass}>Сохранить</Button>
         <Button variant='outline-danger'onClick={onHide}>Закрыть</Button>
       </Modal.Footer>
     </Modal>

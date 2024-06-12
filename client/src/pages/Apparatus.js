@@ -1,5 +1,4 @@
 import React from 'react';
-import DevList from '../components/DevList';
 import { Container } from 'react-bootstrap';
 import AgrList from '../components/AgrList';
 

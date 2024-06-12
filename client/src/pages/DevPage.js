@@ -13,7 +13,6 @@ const DevPage = () => {
         it.id == id
     );
     DevId = DevId[0]
-    const [DevVisible, setDevVisible] = useState(false)
     return (
         <>
         <Container>

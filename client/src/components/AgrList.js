@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Context } from "..";
 import { Row } from "react-bootstrap";
 import {observer} from 'mobx-react-lite'
-import DevItem from "./DevItem";
 import AgrItem from "./AgrItem";
 
 const AgrList = observer(() => {

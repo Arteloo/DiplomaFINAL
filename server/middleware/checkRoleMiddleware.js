@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
                 res.status(401).json({message: "Не авторизован"})
             }
             const decode = jwt.verify(token, process.env.SECRET_KEY)
-            if(decode.role !== role) {
+            if(decode.login !== role) {
                 return res.status(403).json({message: "Нет доступа"})
             }
             req.user = decode

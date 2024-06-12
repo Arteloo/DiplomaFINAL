@@ -30,13 +30,13 @@ class RefractoriesController {
             return res.json(machzoneref)
     }
     async getAll(req, res) {
- let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
+        let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
         page = page || 1
         limit = limit || 9
         let offset = page * limit - limit
         let MaterialsSearch
             if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({order: ['id'], limit, offset})
+            MaterialsSearch = await Refractories.findAll({ limit, offset})
             }
             if (MachineId && ZoneId && InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
@@ -75,7 +75,7 @@ class RefractoriesController {
             if (!MachineId && !ZoneId && InfoId && SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {InfoId, SpecialInfoId}, limit, offset})
             }
-        //единицы - отсутствует один параметр 
+        //единицы - отсутствуют три параметра из четырех 
             if (MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
             MaterialsSearch = await Refractories.findAll({where: {MachineId}, limit, offset})
             }

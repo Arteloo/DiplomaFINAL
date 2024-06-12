@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Col } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
-import { ADMIN_ROUTE, AGR_ROUTE } from '../utils/consts';
-import {Button} from 'react-bootstrap';
 
 const AgrItem = ({mat}) => {
     const nav = useNavigate()

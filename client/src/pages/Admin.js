@@ -21,9 +21,9 @@ const Admin = () => {
         <Container className='d-flex flex-column'>
             <Button variant={'outline-dark'} className='mt-3' style={{fontSize: 28}} onClick={() => nav(DEV_ROUTE)}>Производители</Button>
             <Button variant={'outline-dark'} className='mt-3' style={{fontSize: 28}} onClick={() => nav(AGR_ROUTE)}>Агрегаты</Button>
-            <Button variant={'outline-dark'} className='mt-3' style={{fontSize: 28}}>Зоны футеровки</Button>
+            {/*<Button variant={'outline-dark'} className='mt-3' style={{fontSize: 28}}>Зоны футеровки</Button>
             <Button variant={'outline-dark'} className='mt-3' style={{fontSize: 28}}>Классы огнеупоров</Button>
-            <Button variant={'outline-dark'} className='mt-3 mb-3' style={{fontSize: 28}}>Области применения</Button>
+            <Button variant={'outline-dark'} className='mt-3 mb-3' style={{fontSize: 28}}>Области применения</Button>*/}
             <hr/>
             <Button variant={'outline-success'} className='mt-3' style={{fontSize: 28}} onClick={() => setDevVisible(true)}>Создать производителя</Button>
             <Button variant={'outline-success'} className='mt-3' style={{fontSize: 28}} onClick={() => setApparatVisible(true)}>Создать агрегат</Button>
