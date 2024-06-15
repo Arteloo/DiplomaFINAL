@@ -1,12 +1,15 @@
 import React, { useContext} from 'react';
-import { Container, Col, Row, Card } from 'react-bootstrap';
+import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
 import { useNavigate, useParams, } from 'react-router-dom';
+import { deleteRef } from '../http/RefAPI';
+import { MAIN_ROUTE } from '../utils/consts';
 
 const MaterialPage = () => {
     let {Material} = useContext(Context)
     let {id} = useParams()
+    const loc = useNavigate()
     let mat = Array.from(Material.Refractories).find(it =>
         it.id == id
     )
@@ -26,6 +29,9 @@ const MaterialPage = () => {
     let Deva = Array.from(Material.Developers).find(it=> 
         it.id == DeveloperId
     )
+    const deleteRefa = () => {
+        deleteRef(id).then(data => {})
+    }
     return (
         <>
         <Container>
@@ -61,6 +67,7 @@ const MaterialPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{props.Cr == 0 ? 'Оксид хрома: не указан' : 'Оксид хрома: '  + props.Cr + ' %'}</Row>
             <Row style={{background: 'transparent', padding: 10}}>{props.Cug == 0 ? 'Углерод: не указан' : 'Углерод: '  + props.Cug + ' %'}</Row>
             </Row>
+            <Button variant='outline-danger' onClick={deleteRefa}>удалить</Button>
         </Container>
 
         </>

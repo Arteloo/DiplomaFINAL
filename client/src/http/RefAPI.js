@@ -88,3 +88,7 @@ export const searchRefractories = async (MachineId, ZoneId, InfoId, SpecialInfoI
     return data
 }
 
+export const deleteRef = async (id) => {
+    const {data} = await $authHost.post('api/Refractories/delete/' + id)
+    return data
+}
