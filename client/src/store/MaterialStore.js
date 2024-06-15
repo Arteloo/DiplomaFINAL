@@ -15,6 +15,9 @@ export default class MaterialStore {
         this._selectedZone = {}
         this._selectedInfo = {}
         this._selectedSpec = {}
+        this._searchRef = Number
+        this._searchPoros = Number
+        this._searchPress = Number
         makeAutoObservable(this)
     }
     
@@ -58,6 +61,15 @@ export default class MaterialStore {
     setSelectedSpec(Spec) {
         this._selectedSpec = Spec
     }
+    setSelectedRef(Ref) {
+        this._searchRef = Ref
+    }
+    setSelectedPor(Por) {
+        this._searchPoros = Por
+    }
+    setSelectedPress(Press) {
+        this._searchPress = Press
+    }
 
     get Developers() {
         return this._Developers
@@ -98,5 +110,14 @@ export default class MaterialStore {
     }
     get selectedSpec() {
         return this._selectedSpec
+    }
+    get searchRef() {
+        return this._searchRef
+    }
+    get searchPor() {
+        return this._searchPoros
+    }
+    get searchPress() {
+        return this._searchPress
     }
 }

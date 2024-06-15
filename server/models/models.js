@@ -22,7 +22,9 @@ const Developers = sequelize.define('Developers', {
 })*/
 
 const MachineZoneRef = sequelize.define('MachineRef', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    MachineId: {type: DataTypes.INTEGER},
+    ZoneId: {type: DataTypes.INTEGER}
 })
 
 

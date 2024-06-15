@@ -4,6 +4,7 @@ const {Refractories, Proportions, Properties, Info, SpecInfo, Developers, Machin
 const {MachineZoneRef} = require('../models/models')
 const ApiError = require('../error/ApiError')
 const { Sequelize } = require('../db')
+const Op = Sequelize.Op;
 
 class RefractoriesController {
     async create(req, res, next) {
@@ -30,66 +31,67 @@ class RefractoriesController {
             return res.json(machzoneref)
     }
     async getAll(req, res) {
-        let {MachineId, ZoneId, SpecialInfoId, InfoId, limit, page} = req.query
-        page = page || 1
-        limit = limit || 9
-        let offset = page * limit - limit
-        let MaterialsSearch
-            if (!MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({ limit, offset})
-            }
-            if (MachineId && ZoneId && InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId, SpecialInfoId}, limit, offset})
-             }
-            //Тройки - отсутствует один параметр из указанных
-            if (!MachineId && ZoneId && InfoId && SpecialInfoId) { 
-                MachineId = MachineId || 1
-            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId, SpecialInfoId}, limit, offset})
-            }
-            if (MachineId && !ZoneId && InfoId && SpecialInfoId) { 
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, InfoId, SpecialInfoId}, limit, offset})
-            }
-            if (MachineId && ZoneId && !InfoId && SpecialInfoId) { 
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, SpecialInfoId}, limit, offset})
-            }
-            if (MachineId && ZoneId && InfoId && !SpecialInfoId) { 
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId, InfoId}, limit, offset})} 
-        
-        //Двойки-  отсутствуют два параметра из указанных
-            if (MachineId && ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId}, limit, offset})
-            }
-            if (MachineId && !ZoneId && InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId,  InfoId}, limit, offset})
-            }
-            if (MachineId && !ZoneId && !InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, SpecialInfoId}, limit, offset})
-            }
-            if (!MachineId && ZoneId && InfoId && !SpecialInfoId) {
-            MachineId = MachineId || 1
-            MaterialsSearch = await Refractories.findAll({where: {ZoneId, InfoId}, limit, offset})
-            }
-            if (!MachineId && ZoneId && !InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {ZoneId, SpecialInfoId}, limit, offset})
-            }
-            if (!MachineId && !ZoneId && InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {InfoId, SpecialInfoId}, limit, offset})
-            }
-        //единицы - отсутствуют три параметра из четырех 
-            if (MachineId && !ZoneId && !InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {MachineId}, limit, offset})
-            }
-            if (!MachineId && ZoneId && !InfoId && !SpecialInfoId) {
-            MachineId = MachineId || 1
-            MaterialsSearch = await Refractories.findAll({where: {MachineId, ZoneId}, limit, offset})
-            }
-            if (!MachineId && !ZoneId && InfoId && !SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {InfoId}, limit, offset})
-            }
-            if (!MachineId && !ZoneId && !InfoId && SpecialInfoId) {
-            MaterialsSearch = await Refractories.findAll({where: {SpecialInfoId}, limit, offset})
-            }
+        let MaterialsSearch = await Refractories.findAll()
         return res.json(MaterialsSearch)
+    }
+    async search(req, res) {
+        try {
+            const {MachineId, ZoneId, InfoId, SpecialInfoId, maxRefractorisity, maxPressPoint, maxPorosity} = req.query
+            // Проверка на наличие значений
+             // Вывод параметров для отладки
+        console.log("Parameters:", { MachineId, ZoneId, InfoId, SpecialInfoId, maxRefractorisity, maxPressPoint, maxPorosity});
+        if (MachineId == null || ZoneId == null || InfoId == null || SpecialInfoId == null) {
+            throw new Error("One or more parameters are missing or invalid");
+        }
+        const whereConditions = {};
+
+        if (maxRefractorisity !== undefined) {
+          whereConditions.Refractorisity = { [Op.lt]: maxRefractorisity };
+        }
+        if (maxPressPoint !== undefined) {
+          whereConditions.PressPoint = { [Op.lt]: maxPressPoint };
+        }
+        if (maxPorosity !== undefined) {
+          whereConditions.Porosity = { [Op.lt]: maxPorosity };
+        }
+        const refractories = await Refractories.findAll({
+            include: [
+              {
+                model: MachineZoneRef,
+                where: {
+                  ...(MachineId !== undefined && { MachineId }),
+                  ...(ZoneId !== undefined && { ZoneId })
+                },
+                include: [
+                  { model: Machine },
+                  { model: Zone }
+                ]
+              },
+              {
+                model: Info,
+                where: {
+                  ...(InfoId !== undefined && { id: InfoId })
+                }
+              },
+              {
+                model: SpecInfo,
+                where: {
+                  ...(SpecialInfoId !== undefined && { id: SpecialInfoId })
+                }
+              },
+              {
+                model: Properties,
+                where: whereConditions
+              },
+              {
+                model: Proportions
+              }
+            ]
+          });
+            return res.json(refractories);
+        } catch (error) {
+            console.error("Error finding refractories: ", error);
+        }
     }
     async getOne(req, res) {
         const {id} = req.params
@@ -102,7 +104,8 @@ class RefractoriesController {
     }
 
     async updateOne(req, res, next) {
-        const {id} = req.params
+        try {        
+        {const {id} = req.params
         const {name, ProportionId, PropertyId, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
         //const {img} = req.files
         const RefUp = await Refractories.findOne({where: {id}})
@@ -158,10 +161,12 @@ class RefractoriesController {
                 return next(ApiError.badRequest('Некорректный запрос'))
             }
             RefUp.ZoneId = ZoneId
-         }
+         }}
     }
         RefUp.save()
-        return res.json({message: 'Запись свойств обновлена'})
+        return res.json({message: 'Запись свойств обновлена'})} catch (error) {
+            console.error("Error finding refractories: ", error);
+        }
     }
     async delete(req, res) {
         const {id} = req.params

@@ -1,5 +1,6 @@
 import { $authHost, $host } from "./index";
 
+
 export const createMachine = async (name) => {
     const {data} = await $authHost.post('api/Machines/create', name)
     return data
@@ -71,3 +72,19 @@ export const fetchProperties = async () => {
     const {data} = await $host.get('api/Properties/check')
     return data
 }
+
+export const searchRefractories = async (MachineId, ZoneId, InfoId, SpecialInfoId, maxRefractorisity, maxPressPoint, maxPorosity) => {
+    const {data} = await $host.get('api/Refractories/search', {
+        params: {
+            MachineId,
+            ZoneId,
+            InfoId,
+            SpecialInfoId,
+            maxRefractorisity,
+            maxPressPoint,
+            maxPorosity
+        }
+    });
+    return data
+}
+

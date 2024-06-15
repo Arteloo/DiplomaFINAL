@@ -10,7 +10,6 @@ const MaterialPage = () => {
     let mat = Array.from(Material.Refractories).find(it =>
         it.id == id
     )
-    console.log(mat)
     let props = Array.from(Material.Proportions).find(it => 
         it.id == mat.ProportionId
     )
@@ -23,12 +22,10 @@ const MaterialPage = () => {
     let Specia = Array.from(Material.SpecInfos).find(it =>
         it.id == mat.SpecialInfoId
     )
-    let Deva
     const {DeveloperId} = mat
-    Deva = Array.from(Material.Developers).find(it=> 
+    let Deva = Array.from(Material.Developers).find(it=> 
         it.id == DeveloperId
     )
-    console.log(process.env.REACT_APP_API_URL)
     return (
         <>
         <Container>
