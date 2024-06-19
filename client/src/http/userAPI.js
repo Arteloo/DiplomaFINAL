@@ -23,3 +23,12 @@ export const checkUsers = async () => {
     const {data} = await $authHost.get('api/Users/check')
     return data
 }
+
+export const UpdateOneUser = async (id, email, password, role) => {
+    const {data} = await $authHost.put('api/Users/update/' + id, {email, password, role})
+    return data
+}
+export const DeleteUser = async (id) => {
+    const {data} = await $authHost.post('/api/Users/delete/' + id)
+    return data
+}

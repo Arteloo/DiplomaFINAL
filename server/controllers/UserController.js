@@ -25,6 +25,19 @@ class UserController {
             const token = generateJwt(NewUser.id, NewUser.email, NewUser.role)
             return res.json({token})
     }
+    async update(req, res, next) {
+        const {email, password, role} = req.body
+        if (!email || !password) {
+            return next(ApiError.badRequest('Не указан email/пароль'))
+        }
+        const candidate = await Users.findOne({where: {email}})
+        if (candidate) {
+            return next(ApiError.badRequest('Пользователь с таким email уже существует'))
+        }
+        const hashPass = await bcrypt.hash(password, 4)
+        const UpdUser = await Users.update({email, role, password: hashPass}, {where: {id: req.params.id}})
+        return res.json(UpdUser)
+}
     async login(req, res, next) {
         const {email, password} = req.body
         const logUser = await Users.findOne({where: {email}})

@@ -32,7 +32,7 @@ const MaterialPage = () => {
         it.id == DeveloperId
     )
     const deleteRefa = () => {
-        deleteRef(id).then(data => {})
+        deleteRef(id).then(data => loc(MAIN_ROUTE))
     }
     const [UpdateVisible, setUpdateVisible] = useState('')
     return (

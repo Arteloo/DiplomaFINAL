@@ -2,17 +2,19 @@ import React, { useContext, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import {Button, Dropdown} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
-import { registration } from '../../http/userAPI';
+import { UpdateOneUser} from '../../http/userAPI';
+import {useParams } from 'react-router-dom';
+import { MAIN_ROUTE } from '../../utils/consts';
 
-const CreateUser = ({show, onHide}) => {
-
+const UpdateUser = ({show, onHide}) => {
+  const {id} = useParams()
   const [emaila, setEmail] = useState('')
   const [passa, setPass] = useState('')
   const [Rola, setRole] = useState('')
   const [RolaName, setRolaName] = useState('')
 
   const addUser = () => {
-    registration({email: emaila, password: passa, role: Rola}).then(data => onHide())
+    UpdateOneUser(id, emaila, passa, Rola).then(data => onHide())
  }
     return(
     <Modal
@@ -40,10 +42,10 @@ const CreateUser = ({show, onHide}) => {
                 placeholder={'Введите пароль'}
             />
              <Dropdown className='mb-3'>
-                <Dropdown.Toggle variant='outline-dark'>{RolaName || 'Выберите роль'}</Dropdown.Toggle>
+                <Dropdown.Toggle variant='outline-dark'>{'Выберите роль'}</Dropdown.Toggle>
                 <Dropdown.Menu>
-                <Dropdown.Item variant='dark' onClick={() => setRole('ADMIN') + setRolaName('Администратор')}>Администратор</Dropdown.Item>
-                <Dropdown.Item variant='dark' onClick={() => setRole('USER') + setRolaName('Технолог')}> Технолог</Dropdown.Item>
+                <Dropdown.Item variant='dark' onClick={() => setRole('ADMIN')}>Администратор</Dropdown.Item>
+                <Dropdown.Item variant='dark' onClick={() => setRole('USER')}> Технолог</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </Form>
@@ -56,4 +58,4 @@ const CreateUser = ({show, onHide}) => {
     )
 }
 
-export default CreateUser;
+export default UpdateUser;
