@@ -56,7 +56,7 @@ const MaterialPage = () => {
                 <Row><p>{propers.PressPoint == 0 ? 'Предел прочности на сжатие: не указан' : 'Предел прочности на сжатие: ' + propers.PressPoint + ' МПа'} </p></Row>
                 <Row><p>{propers.Porosity == 0 ? 'Открытая пористость: не указана' : 'Открытая пористость: ' + propers.Porosity + ' %'} </p></Row>
                 <Row><p>{propers.Refractorisity == 0 ? 'Огнеупорность: не указана' : 'Огнеупорность: ' + propers.Refractorisity + ' °C'} </p></Row>
-                <Row><p>Производитель: {Deva.Name}, {Deva.link}</p></Row>
+                <Row><p>{Deva == null ? 'Производитель: ' + Deva.Name + Deva.link : 'Производитель: не указан'}</p></Row>
                 </Card>
             </Col>
             </Row>
@@ -70,8 +70,8 @@ const MaterialPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{props.Cr == 0 ? 'Оксид хрома: не указан' : 'Оксид хрома: '  + props.Cr + ' %'}</Row>
             <Row style={{background: 'transparent', padding: 10}}>{props.Cug == 0 ? 'Углерод: не указан' : 'Углерод: '  + props.Cug + ' %'}</Row>
             </Row>
+            {user.isAdmin ? <Button variant='outline-info' className='mb-5 ms-5' onClick={() => setUpdateVisible(true)}>Обновить</Button> : <div></div>}
             {user.isAdmin ? <Button variant='outline-danger' className='mb-5' onClick={deleteRefa}>Удалить</Button> : <div></div>}
-            {user.isAdmin ? <Button variant='outline-success' className='mb-5 ms-5' onClick={() => setUpdateVisible(true)}>Обновить</Button> : <div></div>}
             <UpdateRef show={UpdateVisible} onHide={() => setUpdateVisible(false)}/>
         </Container>
 

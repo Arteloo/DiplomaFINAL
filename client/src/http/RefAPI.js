@@ -59,7 +59,6 @@ export const updateRef = async (id, Refractory) => {
     return data
 }
 
-
 export const fetchDevs = async () => {
     const {data} = await $host.get('api/Developers/check')
     return data
@@ -68,6 +67,17 @@ export const createDev = async (Name, link, INN, OGRN, phone) => {
     const {data} = await $authHost.post('api/Developers/create', Name, link, INN, OGRN, phone)
     return data
 }
+
+export const deleteDev = async (id) => {
+    const {data} = await $authHost.post('api/Developers/delete/' + id)
+    return data
+}
+
+export const updateDev = async (id, Name, link, INN, OGRN, phone) => {
+    const {data} = await $authHost.put('api/Developers/update/' + id,  {Name, link, INN, OGRN, phone})
+    return data
+}
+
 export const fetchProportions = async () => {
     const {data} = await $host.get('api/Proportions/check')
     return data

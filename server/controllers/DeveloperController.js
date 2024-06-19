@@ -19,27 +19,8 @@ class DeveloperController {
         return res.json(DevOne)
     }
     async updateOne(req, res, next) {
-        const {id} = req.params
         const {Name, link, INN, OGRN, phone} = req.body
-        const DevUp = await Developers.findOne({where: {id}})
-        for (let i=0; i < 4; i++) {
-        if (Name) {
-            DevUp.Name = Name
-        } 
-        if (link) {
-            DevUp.link = link
-        } 
-        if (INN) {
-            DevUp.INN = INN
-        }
-        if (OGRN) {
-            DevUp.OGRN = OGRN
-        }
-        if (phone) {
-            DevUp.phone = phone
-        } 
-    }
-        DevUp.save()
+        const DevUp = await Developers.update({Name, link, INN, OGRN, phone}, {where: {id: req.params.id}})
         return res.json({message: 'Запись производителя обновлена'})
     }
     async delete(req, res) {

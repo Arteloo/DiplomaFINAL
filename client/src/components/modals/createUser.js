@@ -38,6 +38,7 @@ const UpdateUser = ({show, onHide}) => {
             />
             <Form.Control className='mb-3'
                 value={passa}
+                type='password'
                 onChange={e => setPass(e.target.value)}
                 placeholder={'Введите пароль'}
             />
