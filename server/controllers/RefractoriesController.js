@@ -105,67 +105,29 @@ class RefractoriesController {
 
     async updateOne(req, res, next) {
         try {        
-        {const {id} = req.params
-        const {name, ProportionId, PropertyId, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
-        //const {img} = req.files
-        const RefUp = await Refractories.findOne({where: {id}})
-        for (let i=0; i < 5; i++) {
-        if (name) {
-           RefUp.name = name
-        } 
-        if (ProportionId) {
-            const checkProp = await Proportions.findOne({where: {id: ProportionId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
+            const {name, Al, Fe, Si, Zr, Ca, Mg, Cr, Cug, PressPoint, Refractorisity, Porosity, TKLR, Thermosity, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId} = req.body
+            const {img} = req.files
+            if(!Al || !Fe || !Si || !Zr || !Ca || !Mg || !Cr || !Cug) {
+                next(ApiError.badRequest('Не указан состав материала'))
             }
-            RefUp.ProportionId = ProportionId
-         } 
-         if (PropertyId) {
-            const checkProp = await Properties.findOne({where: {id: PropertyId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
+            if(!PressPoint || !Refractorisity || !Porosity || !TKLR || !Thermosity) {
+                next(ApiError.badRequest('Не указаны свойства материала'))
             }
-            RefUp.PropertyId = PropertyId
-         } 
-         if (InfoId) {
-            const checkProp = await Info.findOne({where: {id: InfoId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
+            if(!name) {
+                next(ApiError.badRequest('Не указано имя материала'))
             }
-            RefUp.InfoId = InfoId
-         } 
-         if (SpecialInfoId) {
-            const checkProp = await SpecInfo.findOne({where: {id: SpecialInfoId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
+            if(!img) {
+                next(ApiError.badRequest('Приложите изображение материала'))
             }
-            RefUp.SpecialInfoId = SpecialInfoId
-         } 
-         if (DeveloperId) {
-            const checkProp = await Developers.findOne({where: {id: DeveloperId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
-            }
-            RefUp.DeveloperId = DeveloperId
-         }
-         if (MachineId) {
-            const checkProp = await Machine.findOne({where: {id: MachineId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
-            }
-            RefUp.MachineId = MachineId
-         }
-         if (ZoneId) {
-            const checkProp = await Zone.findOne({where: {id: ZoneId}})
-            if (!checkProp) {
-                return next(ApiError.badRequest('Некорректный запрос'))
-            }
-            RefUp.ZoneId = ZoneId
-         }}
-    }
-        RefUp.save()
-        return res.json({message: 'Запись свойств обновлена'})} catch (error) {
-            console.error("Error finding refractories: ", error);
+            const proports = await Proportions.update({Al, Fe, Si, Zr, Ca, Mg, Cr, Cug}, {where: {id: req.params.id}})
+            const props = await Properties.create({PressPoint, Refractorisity, Porosity, TKLR, Thermosity}, {where: {id: req.params.id}})
+            let fileName = uuid.v4() + '.jpg'
+            img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            const material = await Refractories.update({name, ProportionId: proports.id, PropertyId: props.id, InfoId, SpecialInfoId, DeveloperId, MachineId, ZoneId, img: fileName}, {where: {id: req.params.id}})
+            const machzoneref = await MachineZoneRef.update({MachineId: MachineId, ZoneId: ZoneId, RefractoryId: material.id}, {where: {id: req.params.id}})
+            return res.json(material)
+        } catch (error) {
+            console.error("Error: ", error);
         }
     }
     async delete(req, res) {

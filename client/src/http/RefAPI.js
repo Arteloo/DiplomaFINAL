@@ -54,6 +54,12 @@ export const createRef = async (Refractory) => {
     return data
 }
 
+export const updateRef = async (id, Refractory) => {
+    const {data} = await $authHost.put('api/Refractories/update/' + id, Refractory)
+    return data
+}
+
+
 export const fetchDevs = async () => {
     const {data} = await $host.get('api/Developers/check')
     return data
@@ -92,3 +98,4 @@ export const deleteRef = async (id) => {
     const {data} = await $authHost.post('api/Refractories/delete/' + id)
     return data
 }
+

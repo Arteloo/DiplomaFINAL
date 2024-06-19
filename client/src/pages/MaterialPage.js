@@ -1,15 +1,17 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState} from 'react';
 import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { Context } from '..';
 import { useNavigate, useParams, } from 'react-router-dom';
 import { deleteRef } from '../http/RefAPI';
 import { MAIN_ROUTE } from '../utils/consts';
+import UpdateRef from '../components/modals/updateRef';
 
 const MaterialPage = () => {
     let {Material} = useContext(Context)
     let {id} = useParams()
     const loc = useNavigate()
+    const {user} = useContext(Context)
     let mat = Array.from(Material.Refractories).find(it =>
         it.id == id
     )
@@ -32,6 +34,7 @@ const MaterialPage = () => {
     const deleteRefa = () => {
         deleteRef(id).then(data => {})
     }
+    const [UpdateVisible, setUpdateVisible] = useState('')
     return (
         <>
         <Container>
@@ -67,7 +70,9 @@ const MaterialPage = () => {
             <Row style={{background: 'lightgray', padding: 10}}>{props.Cr == 0 ? 'Оксид хрома: не указан' : 'Оксид хрома: '  + props.Cr + ' %'}</Row>
             <Row style={{background: 'transparent', padding: 10}}>{props.Cug == 0 ? 'Углерод: не указан' : 'Углерод: '  + props.Cug + ' %'}</Row>
             </Row>
-            <Button variant='outline-danger' onClick={deleteRefa}>удалить</Button>
+            {user.isAdmin ? <Button variant='outline-danger' className='mb-5' onClick={deleteRefa}>Удалить</Button> : <div></div>}
+            {user.isAdmin ? <Button variant='outline-success' className='mb-5 ms-5' onClick={() => setUpdateVisible(true)}>Обновить</Button> : <div></div>}
+            <UpdateRef show={UpdateVisible} onHide={() => setUpdateVisible(false)}/>
         </Container>
 
         </>

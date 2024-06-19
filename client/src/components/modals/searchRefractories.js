@@ -29,6 +29,7 @@ const SearchRefractories = observer(({show, onHide}) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
+            <h4 align='left' className='mb-3'>Область применения</h4>
             <div className='d-flex flex-row justify-content-evenly'>
             <Dropdown className='mb-3'>
                 <Dropdown.Toggle variant='outline-dark'>{Material.selectedMachine.name || 'Выберите агрегат'}</Dropdown.Toggle>
@@ -79,25 +80,25 @@ const SearchRefractories = observer(({show, onHide}) => {
             </Dropdown>
             </div>
             <hr/>
-            <h4 align='left' className='mb-3'>Свойства</h4>
+            <h4 align='left' className='mb-3'>Эксплуатационные свойства</h4>
             <div className='d-flex flex-row justify-content-evenly'>
                 <Form.Control className='mb-3 me-3'
                 onChange={e => Material.setSelectedRef(e.target.value)}
-                placeholder={'Огнеупорность, °C'}
+                placeholder={'Огнеупорность, °C, не более'}
                 />
                 <Form.Control className='mb-3 me-3'
                 onChange={e => Material.setSelectedPress(e.target.value)}
-                placeholder={'Предел прочности на сжатие, МПа'}
+                placeholder={'Предел прочности на сжатие, МПа, не более'}
                 />
                 <Form.Control className='mb-3 me-3'
                 onChange={e => Material.setSelectedPor(e.target.value)}
-                placeholder={'Открытая пористость, %'}
+                placeholder={'Открытая пористость, %, не более'}
                 />
             </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='outline-success' onClick={SearchRef}>Сохранить</Button>
+        <Button variant='outline-success' onClick={SearchRef}>Поиск</Button>
         <Button variant='outline-danger'onClick={onHide}>Закрыть</Button>
       </Modal.Footer>
     </Modal>

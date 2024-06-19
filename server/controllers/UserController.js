@@ -51,6 +51,10 @@ class UserController {
         )
         return res.json(Usar)
     }
+    async getAll(req, res, next) {
+        const names = await Users.findAll()
+        return res.json(names)
+    }
     async delete(req, res) {
         const {id} = req.params
         await Users.destroy({where: {id}})
