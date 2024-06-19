@@ -15,12 +15,15 @@ export default class MaterialStore {
         this._selectedZone = {}
         this._selectedInfo = {}
         this._selectedSpec = {}
+        this._Users =[]
         this._searchRef = Number
         this._searchPoros = Number
         this._searchPress = Number
         makeAutoObservable(this)
     }
-    
+    setUsers(Dev) {
+        this._Users = Dev
+    }
     setDevelopers(Dev) {
         this._Developers = Dev
     }
@@ -71,6 +74,9 @@ export default class MaterialStore {
         this._searchPress = Press
     }
 
+    get Users() {
+        return this._Users
+    }
     get Developers() {
         return this._Developers
     }
