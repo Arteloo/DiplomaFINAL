@@ -7,7 +7,7 @@ import { fetchClasses, fetchDevs, fetchMachines, fetchProperties, fetchProportio
 import { checkUsers } from '../http/userAPI';
 
 const Main = observer(() => {
-    const {Material} = useContext(Context)
+    const {Material, user} = useContext(Context)
     useEffect(() => {
         fetchMachines().then(data => Material.setMachines(data))
         fetchZones().then(data => Material.setZones(data))
@@ -17,9 +17,10 @@ const Main = observer(() => {
         fetchRefs().then(data => Material.setRefractories(data))
         fetchProportions().then(data => Material.setProportion(data))
         fetchProperties().then(data => Material.setProperties(data))
-        checkUsers().then(data => Material.setUsers(data))
     })
-
+    if(user.isAdmin == true) {
+        checkUsers().then(data => Material.setUsers(data))
+    }
     return (
         <Container style={{height: window.innerHeight - 54}}>
             <h2 className='d-flex justify-content-center'>Огнеупорные материалы</h2>

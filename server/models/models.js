@@ -27,8 +27,6 @@ const MachineZoneRef = sequelize.define('MachineRef', {
     ZoneId: {type: DataTypes.INTEGER}
 })
 
-
-
 const Machine = sequelize.define('Machine', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true}
